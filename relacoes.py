@@ -170,7 +170,7 @@ def classifica(r):
             if math.log2(x) != round(math.log2(x), 0):
                 flagF = 0
                 flagbsi = 0
-            elif (r & x >> 4) != 0 or (r & x >> 8) != 0 or (r & x >> 16) != 0:
+            elif (r & x >> 4) != 0 or (r & x >> 8) != 0 or (r & x >> 12) != 0:
                 flagbsi = 0
         if flagF==1:
             classe += "F"
