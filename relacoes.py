@@ -125,45 +125,55 @@ def classifica(r):
 
     if classe == "RST":
         classe += "E"
-    flagF = 0
+        
+        
     if r > 4096:
-        flagF = 1
-        if r & 15 == 0:
-            flagF = 0
-            if r & 240 < 16 :
-                flagF = 0
-                if r & 3840 < 256:
-                    flagF = 0
-        if flagF==1:
-            classe += "F"
+        flagF=1
         flagbsi=1
-        x = r & 61440
-        if not isinstance(math.log(x, 2), float):
-            flagbsi = 0
-        elif r << 4 == x / 16 or r << 8 == x / 256 or r << 12 == x / 4096:
-            flagbsi = 0
-        x = r & 3840
-        if x == 0:
-            flagbsi = 0
-        if x != 0:
-            if not isinstance(math.log(x, 2), float):
-                flagbsi = 0
-            elif r << 4 == x / 16 or r << 8 == x / 256:
-                flagbsi = 0
-        x = r & 240
-        if x == 0:
-            flagbsi = 0
-        if x != 0:
-            if not isinstance(math.log(x, 2), float):
-                flagbsi = 0
-            elif r << 3 == x / 16:
-                flagbsi = 0
         x = r & 15
         if x == 0:
+            flagF = 0
             flagbsi = 0
         if x != 0:
-            if not isinstance(math.log(x, 2), float):
+            if math.log2(x) != round(math.log2(x), 0):
+                    flagF = 0
+                    flagbsi = 0
+        y = xor(x, 15)
+        x = r & (240+y)
+        if x == 0:
+            flagF = 0
+            flagbsi = 0
+        if x != 0:
+            if math.log2(x) != round(math.log2(x), 0):
+                flagF = 0
                 flagbsi = 0
+            elif x >= 16:
+                if (r & x >> 4) != 0:
+                    flagbsi = 0
+        y = xor(x+y, 240)
+        x = r & (3840+y)
+        if x == 0:
+            flagF = 0
+            flagbsi = 0
+        if x != 0:
+            if math.log2(x) != round(math.log2(x), 0):
+                flagF = 0
+                flagbsi = 0
+            elif (r & x >> 4) != 0 or (r & x >> 8) != 0:
+                flagbsi = 0
+        y = xor(x+y, 3840)
+        x = r & (61440+y)
+        if x == 0:
+            flagF = 0
+            flagbsi = 0
+        if x!=0:
+            if math.log2(x) != round(math.log2(x), 0):
+                flagF = 0
+                flagbsi = 0
+            elif (r & x >> 4) != 0 or (r & x >> 8) != 0 or (r & x >> 16) != 0:
+                flagbsi = 0
+        if flagF==1:
+            classe += "F"
         if flagbsi==1:
             classe += "FbFsFi"
 
