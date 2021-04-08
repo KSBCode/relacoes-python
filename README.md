@@ -2,9 +2,9 @@
 
 Universidade Federal de Uberlândia
 
-Trabalho da disciplina Lógica e Matemática Discreta
+Trabalho da disciplina Lógica e Matemática Discreta 2018-1
 
-Classificação das relações de um conjunto formado pelos números: {1,2,3,4}
+Classificação das relações de um conjunto numérico formado pelos números: {1,2,3,4}
 
 Realizado por: 
 
